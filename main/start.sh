@@ -1,5 +1,8 @@
-PORT=8080
-UUID=5aaed9b7-7fe3-47c3-bb52-db59859ce198
+
+export PATH_vless=${PATH_vless-/api-vless}
+export PATH_trojan=${PATH_trojan-/api-trojan}
+export PATH_vmess=${PATH_vmess-/api-vmess}
+
 
 tar -xzvf page.tar.gz
 
@@ -16,20 +19,23 @@ echo '
             "settings": {
                 "clients": [
                     {
-                        "id": "$UUID"
+                        "id": "'$UUID'"
                     }
                 ],
                 "decryption": "none",
                 "fallbacks": [
                     {
-                        "path": "$UUID_vless",
+                        "path": "'${PATH_vless}'",
                         "dest": 4001
                     },{
-                        "path": "$UUID_trojan",
+                        "path": "'${PATH_trojan}'",
                         "dest": 4002
                     },{
-                        "path": "$UUID_vmess",
+                        "path": "'${PATH_vmess}'",
                         "dest": 4003
+                    },{
+                        "path": "'${PATH_shadowsocks}'",
+                        "dest": 4004
                     }
                 ]
             },
@@ -52,7 +58,7 @@ echo '
                 "network": "ws",
                 "security": "none",
                 "wsSettings": {
-                    "path": "$UUID_vless"
+                    "path": "'${PATH_vless}'"
                 }
             }
         },{
@@ -70,7 +76,7 @@ echo '
                 "network": "ws",
                 "security": "none",
                 "wsSettings": {
-                    "path": "$UUID_trojan"
+                    "path": "'${PATH_trojan}'"
                 }
             }
         },{
@@ -88,9 +94,24 @@ echo '
                 "network": "ws",
                 "security": "none",
                 "wsSettings": {
-                    "path": "$UUID_vmess"
+                    "path": "'${PATH_vmess}'"
                 }
             }
+        },{
+          "port": 4004,
+          "protocol": "shadowsocks",
+          "settings": {
+            "method": "2022-blake3-aes-128-gcm",
+            "password": "'$UUID'",
+            "network": "tcp,udp"
+          },
+          "streamSettings": {
+            "network": "ws",
+            "security": "none",
+            "wsSettings": {
+                "path": "'${PATH_shadowsocks}'"
+            }
+          }
         }
     ],
     "outbounds": [
