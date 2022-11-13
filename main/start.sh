@@ -34,9 +34,6 @@ echo '
                     },{
                         "path": "'${PATH_vmess}'",
                         "dest": 4003
-                    },{
-                        "path": "'${PATH_shadowsocks}'",
-                        "dest": 4004
                     }
                 ]
             },
@@ -98,21 +95,6 @@ echo '
                     "path": "'${PATH_vmess}'"
                 }
             }
-        },{
-          "port": 4004,
-          "protocol": "shadowsocks",
-          "settings": {
-            "method": "2022-blake3-aes-128-gcm",
-            "password": "'$UUID'",
-            "network": "tcp,udp"
-          },
-          "streamSettings": {
-            "network": "ws",
-            "security": "none",
-            "wsSettings": {
-                "path": "'${PATH_shadowsocks}'"
-            }
-          }
         }
     ],
     "outbounds": [
