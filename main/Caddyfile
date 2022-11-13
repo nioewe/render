@@ -2,10 +2,10 @@
 	auto_https off
 }
 
-:{$PORT} {
+:$PORT {
 	encode zstd gzip
 
-	@path path {$PATH_vless} {$PATH_trojan} {$PATH_vmess} {$PATH_shadowsocks}
+	@path path $UUID_vless $UUID_trojan $UUID_vmess 
 	handle @path {
 		reverse_proxy :4000 {
 			@error status 5xx 4xx
